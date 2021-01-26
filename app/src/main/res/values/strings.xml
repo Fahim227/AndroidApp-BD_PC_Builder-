@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PC Builder</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="desc">MaxGreen 2810BG is an ATX 1028 chassis with SGCC material; 0.4mm thickness casing. Its front panel colour is black and grey. The whole body colour is black.it has 2 USB 2.0 port and HD audio with mic port. 1*8cm black fan is pre-installed on the rear panel. Max 2 fan are supported in this casing. It also has real power supply real 200W, with 2sata, 8cm fan, 220V, 1.2 M power cord.
+   </string>
+</resources>
