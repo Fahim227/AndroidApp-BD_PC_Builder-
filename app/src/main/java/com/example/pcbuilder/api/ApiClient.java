@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static String BaseUrl = "http://10.0.2.2:8000/bdpcbuilderapi/"; //localhost:8000
+    private static String BaseUrl = "http://localhost:8000/bdpcbuilderapi/"; //
     private static ApiClient mInstance;
 
     private static Retrofit retrofit;
