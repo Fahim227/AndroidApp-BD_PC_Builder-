@@ -1,8 +1,11 @@
 package com.example.pcbuilder.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Home extends Fragment implements ProductAdapter.OnProductClickListener {
+public class Home extends Fragment{
     private EditText search;
     private RecyclerView components;
     private RecyclerView brands;
@@ -44,9 +47,10 @@ public class Home extends Fragment implements ProductAdapter.OnProductClickListe
     private List<ProductApi> productApis;
     private RecyclerView productRecycle;
     private ProductAdapter productAdapter;
-    public static String EXTRA_IMG = "imgurl";
+    public static String EXTRA_URL = "prodUrl";
     public static String EXTRA_PRICE = "price";
     public static String EXTRA_NAME = "name";
+    private Context cxt = getActivity();
     private ApiClient apiClient;
 
 
@@ -110,6 +114,13 @@ public class Home extends Fragment implements ProductAdapter.OnProductClickListe
         //get components list by Api
         productApis = new ArrayList<>();
         getProducts();
+        System.out.println("here"+" "+productApis.size());
+
+        /*for(int i = 0;i<productApis.size();i++){
+            System.out.println("here");
+
+            System.out.println(productApis.get(i).name);
+        }*/
         //Toast.makeText(getActivity(),productApis.size(),Toast.LENGTH_LONG).show();
 
         //add Components in RecycleView
@@ -128,14 +139,16 @@ public class Home extends Fragment implements ProductAdapter.OnProductClickListe
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2,GridLayoutManager.VERTICAL,false);
         productRecycle.setLayoutManager(gridLayoutManager);
         productRecycle.setAdapter(productAdapter);
-        productAdapter.setOnProductClickListener(this);
-
+        productAdapter.notifyDataSetChanged();
+       // productAdapter.setOnProductClickListener(this);
         return root;
     }
 
-    @Override
+
+
+    /*@Override
     public void onProductClick(int position) {
-        Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
+       /* Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
         Products prod = products.get(position);
         //prod.getImg()
         //prod.getPrice()
@@ -146,17 +159,33 @@ public class Home extends Fragment implements ProductAdapter.OnProductClickListe
         detailsIntents.putExtra(EXTRA_NAME,prod.getTitle());
 
         startActivity(detailsIntents);
-
-    }
-
+        Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"Working",Toast.LENGTH_LONG).show();
+    }*/
     public void getProducts(){
         Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts();
         call.enqueue(new Callback<List<ProductApi>>() {
             //List<ProductApi> productApiList;
             @Override
             public void onResponse(Call<List<ProductApi>> call, Response<List<ProductApi>> response) {
+
                 if(response.isSuccessful() && response.body() != null){
                     productApis = response.body();
+                    productAdapter = new ProductAdapter(productApis,getActivity());
+                    productRecycle.setAdapter(productAdapter);
+                    productAdapter.notifyDataSetChanged();
+                    productAdapter.setOnProductClickListener(new ProductAdapter.OnProductClickListener() {
+                        @Override
+                        public void onProductClick(int position) {
+                            //Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
+                            Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
+                            String prodUrl = productApis.get(position).getUrls();
+                            //Toast.makeText(getActivity(),Integer.toString(prod.getImg()),Toast.LENGTH_LONG).show();
+                            detailsIntents.putExtra(EXTRA_URL,prodUrl);
+                            startActivity(detailsIntents);
+                        }
+                    });
+                    //Toast.makeText(getActivity(),String.valueOf(productApis.size()),Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(getActivity(),response.message(),Toast.LENGTH_LONG).show();

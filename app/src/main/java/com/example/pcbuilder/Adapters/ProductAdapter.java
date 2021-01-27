@@ -18,6 +18,8 @@ import com.example.pcbuilder.models.Products;
 
 import java.util.List;
 
+import retrofit2.Callback;
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     List<ProductApi> products;
@@ -36,6 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public ProductAdapter(List<ProductApi> products, Context cxt) {
         this.products = products;
         this.cxt = cxt;
+        this.onProductClickListener = onProductClickListener;
     }
 
     @NonNull

@@ -5,10 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProductDetails">
+    <ProgressBar
+        android:id="@+id/shimmerId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:theme="@style/AppTheme.WhiteAccent"
+        android:visibility="invisible"
+        />
+
 
     <ScrollView
 
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,10 +26,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <!--<com.facebook.shimmer.ShimmerFrameLayout
+
+            android:id="@+id/shimmerId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">-->
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
+
 
             <ImageView
                 android:id="@+id/detailsimgID"
@@ -33,6 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.007"
                 app:srcCompat="@drawable/casing" />
+
 
             <TextView
                 android:id="@+id/productnameID"
@@ -206,7 +225,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/descriptionID"
                 app:layout_constraintVertical_bias="0.321" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- </com.facebook.shimmer.ShimmerFrameLayout>-->
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
