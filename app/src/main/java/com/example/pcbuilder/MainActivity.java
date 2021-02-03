@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,18 +25,26 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    //public String comName;
     private BottomNavigationView bottomNavigationView;
     public static List<ProductApi> productApis;
+    Intent intent;
+    public static String comName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        intent = getIntent();
+        comName = String.valueOf(intent.getStringExtra("componentsName"));
+
+
+
         productApis = new ArrayList<>();
-       // getProducts();
         bottomNavigationView = findViewById(R.id.bottomnavigationbarID);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.containerID,new Home()).commit();
+
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -43,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()){
             case R.id.homemenuId:
                 fragment = new Home();
+                Bundle bundle = new Bundle();
+                bundle.putString("comName",comName);
+                fragment.setArguments(bundle);
                 break;
             case R.id.accountmenuID:
                 fragment = new Profile();
@@ -53,32 +65,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.containerID,fragment).commit();
         return true;
-    }
-
-    public void getProducts(){
-        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts();
-        call.enqueue(new Callback<List<ProductApi>>() {
-            //List<ProductApi> productApiList;
-            @Override
-            public void onResponse(Call<List<ProductApi>> call, Response<List<ProductApi>> response) {
-
-                if(response.isSuccessful() && response.body() != null){
-                    productApis = response.body();
-                    Toast.makeText(getApplicationContext(),String.valueOf(productApis.size()),Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),response.message(),Toast.LENGTH_LONG).show();
-                    System.out.println(response.message());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<ProductApi>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-                System.out.println(t.getLocalizedMessage());
-
-            }
-        });
     }
 }

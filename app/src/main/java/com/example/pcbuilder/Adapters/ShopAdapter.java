@@ -19,6 +19,7 @@ import java.util.zip.Inflater;
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     List<Shop> shops;
+
     Context cxt;
 
     public ShopAdapter(List<Shop> shops, Context cxt) {

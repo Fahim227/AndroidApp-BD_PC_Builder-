@@ -1,5 +1,6 @@
 package com.example.pcbuilder.api;
 
+import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.ComponentDetails;
 import com.example.pcbuilder.models.ProductApi;
 
@@ -13,8 +14,24 @@ import retrofit2.http.POST;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("getproducts/")
-    Call<List<ProductApi>> getHomeProducts();
+    @FormUrlEncoded
+    @POST("getproducts/")
+    Call<List<ProductApi>> getHomeProducts(
+            @Field("componentName") String comName
+           // @Field("brandName") String brandName
+    );
+
+    @FormUrlEncoded
+    @POST("getbrands/")
+    Call<BrandsList> getBrandNames(
+            @Field("componentName") String comName
+    );
+
+    @FormUrlEncoded
+    @POST("brandscomponents/")
+    Call<List<ProductApi>> getComponentsByBrands(
+            @Field("brandurl") String brandurl
+    );
 
     @FormUrlEncoded
     @POST("componentdetails/")

@@ -1,11 +1,10 @@
 package com.example.pcbuilder.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,15 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.pcbuilder.Adapters.ComponentsAdapter;
+import com.example.pcbuilder.Adapters.BrandsAdapter;
 import com.example.pcbuilder.Adapters.ProductAdapter;
 import com.example.pcbuilder.MainActivity;
 import com.example.pcbuilder.ProductDetails;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.api.ApiClient;
-import com.example.pcbuilder.models.Brands;
+import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.Components;
 import com.example.pcbuilder.models.ProductApi;
 import com.example.pcbuilder.models.Products;
@@ -40,9 +41,9 @@ public class Home extends Fragment{
     private EditText search;
     private RecyclerView components;
     private RecyclerView brands;
-    private List<Components> componentsName, brandName;
+    private List<Components>  brandName;
     //private List<Brands> brandName;
-    private ComponentsAdapter componentsAdapter,brandsAdapter;
+    private BrandsAdapter componentsAdapter,brandsAdapter;
     private List<Products> products;
     private List<ProductApi> productApis;
     private RecyclerView productRecycle;
@@ -52,6 +53,14 @@ public class Home extends Fragment{
     public static String EXTRA_NAME = "name";
     private Context cxt = getActivity();
     private ApiClient apiClient;
+    private LinearLayout component;
+    private MainActivity mainActivity;
+    Intent intent;
+    private BrandsList brandsList;
+    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
+
+
 
 
     @Override
@@ -60,25 +69,34 @@ public class Home extends Fragment{
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         brands = root.findViewById(R.id.brandsID);
-        components = root.findViewById(R.id.componentsID);
+        //components = root.findViewById(R.id.componentsID);
+
         productRecycle = root.findViewById(R.id.productrecycleID);
-        componentsName = new ArrayList<>();
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(
+                android.R.color.transparent
+        );
+        //int val = components.getChildCount();
+        //Toast.makeText(getContext(),String.valueOf(val),Toast.LENGTH_LONG).show();
+        /*component.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int val = ((ViewGroup)view).getChildCount();
+                Toast.makeText(getContext(),String.valueOf(val),Toast.LENGTH_LONG).show();
+                /*for(int i=0; i<((ViewGroup)view).getChildCount(); ++i) {
+                    View nextChild = ((ViewGroup)view).getChildAt(i);
+                    if(nextChild.getId() == R.id.your_id){
+                        String text = ((TextView) nextChild).getText().toString();
+                    }
+                }
+            }
+        });*/
+       // componentsName = new ArrayList<>();
         brandName = new ArrayList<>();
         products = new ArrayList<>();
-        //Components
-        Components ram = new Components("Ram");
-        Components Processor = new Components("Processor");
-        Components MotherBoard = new Components("MotherBoard");
-        Components GPU = new Components("GPU");
-        Components Powersupply = new Components("Powersupply");
-        Components SSD = new Components("SSD");
 
-        componentsName.add(ram);
-        componentsName.add(Processor);
-        componentsName.add(MotherBoard);
-        componentsName.add(GPU);
-        componentsName.add(Powersupply);
-        componentsName.add(SSD);
 
         //Brands
         Log.d("Checking : ","1");
@@ -113,23 +131,13 @@ public class Home extends Fragment{
 
         //get components list by Api
         productApis = new ArrayList<>();
-        getProducts();
+        getBrands(mainActivity.comName);
+        getProducts(mainActivity.comName);
+
         System.out.println("here"+" "+productApis.size());
 
-        /*for(int i = 0;i<productApis.size();i++){
-            System.out.println("here");
-
-            System.out.println(productApis.get(i).name);
-        }*/
-        //Toast.makeText(getActivity(),productApis.size(),Toast.LENGTH_LONG).show();
-
-        //add Components in RecycleView
-        componentsAdapter = new ComponentsAdapter(componentsName,getActivity());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        components.setLayoutManager(layoutManager);
-        components.setAdapter(componentsAdapter);
         // add brands in recycler view
-        brandsAdapter = new ComponentsAdapter(brandName,getActivity());
+       // brandsAdapter = new BrandsAdapter(brandName,getActivity());
         RecyclerView.LayoutManager layoutManagerbrands = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         brands.setLayoutManager(layoutManagerbrands);
         brands.setAdapter(brandsAdapter);
@@ -144,31 +152,14 @@ public class Home extends Fragment{
         return root;
     }
 
-
-
-    /*@Override
-    public void onProductClick(int position) {
-       /* Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
-        Products prod = products.get(position);
-        //prod.getImg()
-        //prod.getPrice()
-        //prod.getTitle()
-        //Toast.makeText(getActivity(),Integer.toString(prod.getImg()),Toast.LENGTH_LONG).show();
-        detailsIntents.putExtra(EXTRA_IMG,prod.getImg());
-        detailsIntents.putExtra(EXTRA_PRICE,prod.getPrice().toString());
-        detailsIntents.putExtra(EXTRA_NAME,prod.getTitle());
-
-        startActivity(detailsIntents);
-        Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(),"Working",Toast.LENGTH_LONG).show();
-    }*/
-    public void getProducts(){
-        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts();
+    public void getProducts(String comName){
+        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts(comName);
         call.enqueue(new Callback<List<ProductApi>>() {
             //List<ProductApi> productApiList;
             @Override
             public void onResponse(Call<List<ProductApi>> call, Response<List<ProductApi>> response) {
 
+                progressDialog.dismiss();
                 if(response.isSuccessful() && response.body() != null){
                     productApis = response.body();
                     productAdapter = new ProductAdapter(productApis,getActivity());
@@ -201,5 +192,84 @@ public class Home extends Fragment{
 
             }
         });
+    }
+    public void getBrands(String name){
+        Call<BrandsList> call = ApiClient.getInstance().getApi().getBrandNames(name);
+        call.enqueue(new Callback<BrandsList>() {
+            @Override
+            public void onResponse(Call<BrandsList> call, Response<BrandsList> response) {
+                if(response.isSuccessful() && response.body() != null){
+
+                    brandsList = response.body();
+                    brandsAdapter = new BrandsAdapter(brandsList.getBrands(),getActivity(),Home.this);
+                    brands.setAdapter(brandsAdapter);
+                    brandsAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(),String.valueOf(brandsList.getBrands().size()), Toast.LENGTH_LONG).show();
+                   /* for (int i=0;i<brandsList.getBrands().size();i++) {
+                        Toast.makeText(getActivity(),brandsList.getBrands().get(i).getBrandsName() , Toast.LENGTH_LONG).show();
+
+                    }*/
+
+                }
+                else{
+                    Toast.makeText(getActivity(),response.message(),Toast.LENGTH_LONG).show();
+                    System.out.println(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BrandsList> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //get products by brands
+    public void getProductsByBrands(String brandurl){
+        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getComponentsByBrands(brandurl);
+        call.enqueue(new Callback<List<ProductApi>>() {
+            //List<ProductApi> productApiList;
+            @Override
+            public void onResponse(Call<List<ProductApi>> call, Response<List<ProductApi>> response) {
+
+                progressDialog.dismiss();
+                if(response.isSuccessful() && response.body() != null){
+                    productApis = response.body();
+                    productAdapter = new ProductAdapter(productApis,getActivity());
+                    productRecycle.setAdapter(productAdapter);
+                    productAdapter.notifyDataSetChanged();
+                    productAdapter.setOnProductClickListener(new ProductAdapter.OnProductClickListener() {
+                        @Override
+                        public void onProductClick(int position) {
+                            //Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
+                            Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
+                            String prodUrl = productApis.get(position).getUrls();
+                            //Toast.makeText(getActivity(),Integer.toString(prod.getImg()),Toast.LENGTH_LONG).show();
+                            detailsIntents.putExtra(EXTRA_URL,prodUrl);
+                            startActivity(detailsIntents);
+                        }
+                    });
+                    //Toast.makeText(getActivity(),String.valueOf(productApis.size()),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getActivity(),response.message(),Toast.LENGTH_LONG).show();
+                    System.out.println(response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductApi>> call, Throwable t) {
+                Toast.makeText(getActivity(),t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                System.out.println(t.getLocalizedMessage());
+
+            }
+        });
+    }
+    public void startProgress(){
+        progressDialog.show();
+    }
+    public void stopProgress(){
+        progressDialog.dismiss();
     }
 }
