@@ -1,4 +1,4 @@
-package com.example.pcbuilder;
+package com.example.pcbuilder.Activities;
 
 import com.example.pcbuilder.models.ComponentDetails;
 import com.example.pcbuilder.models.Components;

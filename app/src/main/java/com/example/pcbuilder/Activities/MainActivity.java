@@ -1,4 +1,4 @@
-package com.example.pcbuilder;
+package com.example.pcbuilder.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.pcbuilder.Fragments.Cart;
 import com.example.pcbuilder.Fragments.Home;
 import com.example.pcbuilder.Fragments.Profile;
+import com.example.pcbuilder.R;
 import com.example.pcbuilder.api.ApiClient;
 import com.example.pcbuilder.models.ProductApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

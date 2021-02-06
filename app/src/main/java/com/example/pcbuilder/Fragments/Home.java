@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.example.pcbuilder.Adapters.BrandsAdapter;
 import com.example.pcbuilder.Adapters.ProductAdapter;
-import com.example.pcbuilder.MainActivity;
-import com.example.pcbuilder.ProductDetails;
+import com.example.pcbuilder.Activities.MainActivity;
+import com.example.pcbuilder.Activities.ProductDetails;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.api.ApiClient;
 import com.example.pcbuilder.models.BrandsList;

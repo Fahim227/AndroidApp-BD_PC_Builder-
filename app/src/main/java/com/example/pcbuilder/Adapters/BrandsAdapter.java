@@ -2,7 +2,6 @@ package com.example.pcbuilder.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -17,11 +16,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pcbuilder.Common;
+import com.example.pcbuilder.Activities.Common;
 import com.example.pcbuilder.Fragments.Home;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.models.Brands;
-import com.example.pcbuilder.models.Components;
 
 import java.util.List;
 

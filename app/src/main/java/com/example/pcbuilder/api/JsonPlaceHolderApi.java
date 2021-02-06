@@ -3,6 +3,7 @@ package com.example.pcbuilder.api;
 import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.ComponentDetails;
 import com.example.pcbuilder.models.ProductApi;
+import com.example.pcbuilder.models.Response;
 
 import java.util.List;
 
@@ -37,6 +38,22 @@ public interface JsonPlaceHolderApi {
     @POST("componentdetails/")
     Call<ComponentDetails> getCompopnentsDetails(
             @Field("url") String url
+    );
+    @FormUrlEncoded
+    @POST("getbrands/")
+    Call<BrandsList> getComponentsName(
+            @Field("componentName") String comName
+    );
+
+    @FormUrlEncoded
+    @POST("addtocart/")
+    Call<Response> addToCart(
+            @Field("userid") int userid,
+            @Field("produrl") String producturl,
+            @Field("shopid") int shopid,
+            @Field("quantity") int qnty
+
+
     );
 
 }

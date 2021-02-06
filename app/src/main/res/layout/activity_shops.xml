@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
 
-    tools:context=".Shops">
+    tools:context=".Activities.Shops">
 
     <TextView
         android:id="@+id/textView12"

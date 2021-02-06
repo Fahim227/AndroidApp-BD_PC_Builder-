@@ -1,4 +1,4 @@
-package com.example.pcbuilder;
+package com.example.pcbuilder.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-  import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -15,20 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.pcbuilder.Fragments.Home;
+import com.example.pcbuilder.R;
 import com.example.pcbuilder.api.ApiClient;
 import com.example.pcbuilder.models.CartModel;
 import com.example.pcbuilder.models.ComponentDetails;
-import com.example.pcbuilder.models.Components;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
 
 //import static com.example.pcbuilder.Fragments.Home.EXTRA_IMG;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.pcbuilder.Fragments.Home.EXTRA_NAME;
-import static com.example.pcbuilder.Fragments.Home.EXTRA_PRICE;
 import static com.example.pcbuilder.Fragments.Home.EXTRA_URL;
 
 public class ProductDetails extends AppCompatActivity implements View.OnClickListener {
@@ -43,6 +40,7 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
     private ShimmerFrameLayout shimmerFrameLayout;
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
+    private int qnty;
 
 
     @Override
@@ -95,10 +93,11 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.addlistID){
-            int qnty = quantity.getValue();
+            qnty = quantity.getValue();
             CartModel cartModel = new CartModel(name,Integer.toString(qnty),cost);
-            //Save this to cart
-            Toast.makeText(this,cartModel.getComponents()+" "+cartModel.getQuantity()+" "+cartModel.getPrice(),Toast.LENGTH_LONG).show();
+            //Save this to cart_list
+            Toast.makeText(this,url+" "+cartModel.getQuantity(),Toast.LENGTH_LONG).show();
+            addtoCart();
 
         }
     }
@@ -133,5 +132,33 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+    }
+
+    public void addtoCart(){
+        Call<com.example.pcbuilder.models.Response> call = ApiClient.getInstance().getApi().addToCart(11,url,2,qnty);
+        call.enqueue(new Callback<com.example.pcbuilder.models.Response>() {
+            @Override
+            public void onResponse(Call<com.example.pcbuilder.models.Response> call, Response<com.example.pcbuilder.models.Response> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    com.example.pcbuilder.models.Response res = response.body();
+                    if(res.getSuccess()){
+                        Toast.makeText(getApplicationContext(),res.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),res.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),response.message(),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.pcbuilder.models.Response> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 }

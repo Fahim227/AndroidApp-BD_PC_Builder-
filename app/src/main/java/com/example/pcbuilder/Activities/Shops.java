@@ -1,4 +1,4 @@
-package com.example.pcbuilder;
+package com.example.pcbuilder.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.pcbuilder.Adapters.ShopAdapter;
+import com.example.pcbuilder.R;
 import com.example.pcbuilder.models.Shop;
 
 import java.util.ArrayList;
