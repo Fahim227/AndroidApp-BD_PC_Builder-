@@ -1,28 +1,47 @@
 package com.example.pcbuilder.models;
 
 public class Shop {
+    public String shop_name;
+    public String shop_address;
+    public String shop_img;
+    public int shop_id;
 
-    public String title;
-    public Integer img;
-
-    public Shop(String title, Integer img) {
-        this.title = title;
-        this.img = img;
+    public Shop(String shop_name, String shop_address, String shop_img, int shop_id) {
+        this.shop_name = shop_name;
+        this.shop_address = shop_address;
+        this.shop_img = shop_img;
+        this.shop_id = shop_id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getShop_name() {
+        return shop_name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
     }
 
-    public Integer getImg() {
-        return img;
+    public String getShop_address() {
+        return shop_address;
     }
 
-    public void setImg(Integer img) {
-        this.img = img;
+    public void setShop_address(String shop_address) {
+        this.shop_address = shop_address;
+    }
+
+    public String getShop_img() {
+        return shop_img;
+    }
+
+    public void setShop_img(String shop_img) {
+        this.shop_img = shop_img;
+    }
+
+    public int getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 }

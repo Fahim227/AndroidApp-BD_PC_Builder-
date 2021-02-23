@@ -32,7 +32,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/prodimgID"
             android:layout_width="109dp"
             android:layout_height="91dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
             app:srcCompat="@drawable/casing" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/prodnameID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Casing"
@@ -53,12 +53,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/prodimgID"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.173" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/prodpriceID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
@@ -66,12 +66,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.097"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/prodimgID"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.673" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/deleteID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="218dp"
@@ -79,7 +79,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.238"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/prodimgID"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.885"
             android:padding="5dp"

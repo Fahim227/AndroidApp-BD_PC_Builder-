@@ -78,22 +78,6 @@ public class Home extends Fragment{
         progressDialog.getWindow().setBackgroundDrawableResource(
                 android.R.color.transparent
         );
-        //int val = components.getChildCount();
-        //Toast.makeText(getContext(),String.valueOf(val),Toast.LENGTH_LONG).show();
-        /*component.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int val = ((ViewGroup)view).getChildCount();
-                Toast.makeText(getContext(),String.valueOf(val),Toast.LENGTH_LONG).show();
-                /*for(int i=0; i<((ViewGroup)view).getChildCount(); ++i) {
-                    View nextChild = ((ViewGroup)view).getChildAt(i);
-                    if(nextChild.getId() == R.id.your_id){
-                        String text = ((TextView) nextChild).getText().toString();
-                    }
-                }
-            }
-        });*/
-       // componentsName = new ArrayList<>();
         brandName = new ArrayList<>();
         products = new ArrayList<>();
 

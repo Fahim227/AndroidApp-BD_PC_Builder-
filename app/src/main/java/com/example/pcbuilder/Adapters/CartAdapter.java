@@ -4,22 +4,25 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.models.CartModel;
+import com.example.pcbuilder.models.ComponentDetails;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
-     List<CartModel> carts;
+     List<ComponentDetails> carts;
      Context cxt;
 
-    public CartAdapter(List<CartModel> carts, Context cxt) {
+    public CartAdapter(List<ComponentDetails> carts, Context cxt) {
         this.carts = carts;
         this.cxt = cxt;
     }
@@ -27,15 +30,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(cxt).inflate(R.layout.cartrecycleview,parent,false);
+        View view = LayoutInflater.from(cxt).inflate(R.layout.cart_list,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.components.setText(carts.get(position).getComponents());
-        holder.quantity.setText(carts.get(position).getQuantity());
+        Glide.with(cxt).load(carts.get(position).getImg()).into(holder.prodimg);
+        holder.name.setText(carts.get(position).getName());
         holder.price.setText(carts.get(position).getPrice());
 
     }
@@ -46,12 +49,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView components,quantity,price;
+        ImageView prodimg,delete;
+        TextView name,price;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            components = itemView.findViewById(R.id.cartcomponentsID);
-            quantity = itemView.findViewById(R.id.cartquantityID);
-            price = itemView.findViewById(R.id.cartpriceID);
+            prodimg = itemView.findViewById(R.id.prodimgID);
+            delete = itemView.findViewById(R.id.deleteID);
+            name = itemView.findViewById(R.id.prodnameID);
+            price = itemView.findViewById(R.id.prodpriceID);
         }
     }
 }

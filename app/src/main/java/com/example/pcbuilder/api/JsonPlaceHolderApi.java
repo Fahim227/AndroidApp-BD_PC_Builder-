@@ -4,6 +4,7 @@ import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.ComponentDetails;
 import com.example.pcbuilder.models.ProductApi;
 import com.example.pcbuilder.models.Response;
+import com.example.pcbuilder.models.Shop;
 
 import java.util.List;
 
@@ -52,8 +53,14 @@ public interface JsonPlaceHolderApi {
             @Field("produrl") String producturl,
             @Field("shopid") int shopid,
             @Field("quantity") int qnty
-
-
     );
+
+    @FormUrlEncoded
+    @POST("get_cart_components/")
+    Call<List<ComponentDetails>> getCartItems(
+            @Field("userID") int userid
+    );
+    @GET("allshopsapi/")
+    Call<List<Shop>> getAllShops();
 
 }

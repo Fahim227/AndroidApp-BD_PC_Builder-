@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.models.Shop;
 
@@ -21,6 +22,14 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     List<Shop> shops;
 
     Context cxt;
+    private OnShopClickListener onShopClickListener;
+    public interface OnShopClickListener{
+        void onShopClickListener(int position);
+    }
+
+    public void setOnShopClickListener(OnShopClickListener onShopClickListener) {
+        this.onShopClickListener = onShopClickListener;
+    }
 
     public ShopAdapter(List<Shop> shops, Context cxt) {
         this.shops = shops;
@@ -36,8 +45,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(shops.get(position).getTitle());
-        holder.img.setImageResource(shops.get(position).getImg());
+        Glide.with(cxt).load(shops.get(position).getShop_img()).into(holder.img);
+        holder.name.setText(shops.get(position).getShop_name());
+
+
     }
 
     @Override
@@ -46,13 +57,25 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView name;
         ImageView img;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             img = itemView.findViewById(R.id.shopimgID);
-            title = itemView.findViewById(R.id.shoptitleID);
+            name = itemView.findViewById(R.id.shoptitleID);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onShopClickListener!=null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            onShopClickListener.onShopClickListener(position);
+                        }
+                    }
+                }
+            });
 
         }
     }
