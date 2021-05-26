@@ -30,6 +30,7 @@ public class ComponentsActivity extends AppCompatActivity {
     private List<Components> componentsName;
     ComponentsAdapter componentsAdapter;
     private BrandsList brandsList;
+    private  String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +38,10 @@ public class ComponentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_components);
         componentsView = findViewById(R.id.componentsID);
 
-       /* Shop shop1 = new Shop("Techland", R.drawable.techlnd);
-        Shop shop2 = new Shop("Startech", R.drawable.startech);
-        Shop shop3 = new Shop("Creatus", R.drawable.creatus);
-        Shop shop4 = new Shop("UCC", R.drawable.ucc);
-        Log.d("cheking 2", Integer.toString(shop1.img));
-        shops = new ArrayList<>();
-        shops.add(shop1);
-        shops.add(shop2);
-        shops.add(shop3);
-        shops.add(shop4);
-        shops.add(shop4);
-        shops.add(shop4);
-        shops.add(shop4);*/
-       /* componentsName = new ArrayList<>();
-        Components ram = new Components("Ram");
-        Components Processor = new Components("Processor");
-        Components MotherBoard = new Components("MotherBoard");
-        Components GPU = new Components("GPU");
-        Components Powersupply = new Components("Powersupply");
-        Components SSD = new Components("SSD");
-
-        componentsName.add(ram);
-        componentsName.add(Processor);
-        componentsName.add(MotherBoard);
-        componentsName.add(GPU);
-        componentsName.add(Powersupply);
-        componentsName.add(SSD);*/
-
-        getComponents("https://www.startech.com.bd/component/");
+        Intent intent = getIntent();
+        url = intent.getStringExtra("shopUrl");
+        url+="getComponentsAndBrandsName/";
+        getComponents(url);
 
 
         Log.d("Checking 1","Not Working");
@@ -78,7 +54,8 @@ public class ComponentsActivity extends AppCompatActivity {
     }
 
     public void getComponents(String name){
-        Call<BrandsList> call = ApiClient.getInstance().getApi().getComponentsName(name);
+        Toast.makeText(getApplicationContext(),url,Toast.LENGTH_LONG).show();
+       /* Call<BrandsList> call = ApiClient.getInstance().getApi().getComponentsName(name);
 
         call.enqueue(new Callback<BrandsList>() {
             @Override
@@ -97,7 +74,7 @@ public class ComponentsActivity extends AppCompatActivity {
             public void onFailure(Call<BrandsList> call, Throwable t) {
 
             }
-        });
+        });*/
 
     }
 }

@@ -60,6 +60,7 @@ public interface JsonPlaceHolderApi {
     Call<List<ComponentDetails>> getCartItems(
             @Field("userID") int userid
     );
+
     @GET("allshopsapi/")
     Call<List<Shop>> getAllShops();
 

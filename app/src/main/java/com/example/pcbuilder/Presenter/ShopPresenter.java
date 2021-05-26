@@ -24,7 +24,7 @@ public class ShopPresenter {
     }
 
     public void getShops(){
-        shopView.showLoading();
+        //shopView.showLoading();
         Call<List<Shop>> call = ApiClient.getInstance().getApi().getAllShops();
         call.enqueue(new Callback<List<Shop>>() {
             @Override
