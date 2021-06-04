@@ -26,6 +26,8 @@ public class Shops extends AppCompatActivity implements ShopView {
     ShopPresenter shopPresenter;
     ShopAdapter shopAdapter;
     private ProgressDialog progressDialog;
+    public static  String url;
+    public static  String shopName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,8 @@ public class Shops extends AppCompatActivity implements ShopView {
         shopAdapter.setOnShopClickListener(new ShopAdapter.OnShopClickListener() {
             @Override
             public void onShopClickListener(int position) {
-                String url = ApiClient.ip+shopList.get(position).getShop_name().toLowerCase()+"/";
+                shopName = shopList.get(position).getShop_name().toLowerCase();
+                url = ApiClient.ip+shopList.get(position).getShop_name().toLowerCase()+"/";
                 Intent intent = new Intent(Shops.this,ComponentsActivity.class);
                 intent.putExtra("shopUrl",url);
                 startActivity(intent);

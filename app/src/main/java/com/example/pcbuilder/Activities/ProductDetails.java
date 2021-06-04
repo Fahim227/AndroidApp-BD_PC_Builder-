@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import com.example.pcbuilder.api.ApiClient;
 import com.example.pcbuilder.models.CartModel;
 import com.example.pcbuilder.models.ComponentDetails;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.travijuu.numberpicker.library.NumberPicker;
 
 
 //import static com.example.pcbuilder.Fragments.Home.EXTRA_IMG;
@@ -36,7 +36,7 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
     private Button addtolist;
     String cost,name;
     private ApiClient apiClient;
-    private String url;
+    private String url,localUrl;
     private ShimmerFrameLayout shimmerFrameLayout;
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
@@ -51,7 +51,7 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         //Integer imgResource = intent.getIntExtra(EXTRA_IMG,0);
         url = intent.getStringExtra(EXTRA_URL);
-
+        localUrl = intent.getStringExtra("localUrl");
         Toast.makeText(this,url,Toast.LENGTH_LONG).show();
         /*cost = intent.getStringExtra(EXTRA_PRICE);
         name = intent.getStringExtra(EXTRA_NAME);*/
@@ -70,8 +70,8 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
         description = findViewById(R.id.descriptionID);
         quantity = findViewById(R.id.quantityID);
         quantity.setValue(1);
-        quantity.setMaxValue(10);
-        quantity.setMinValue(0);
+        quantity.setMin(0);
+        quantity.setMax(10);
         addtolist = findViewById(R.id.addlistID);
         prodName = findViewById(R.id.productnameID);
         progressBar = findViewById(R.id.shimmerId);
@@ -103,7 +103,7 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     public void getDetails(){
-        Call<ComponentDetails> call = ApiClient.getInstance().getApi().getCompopnentsDetails(url);
+        Call<ComponentDetails> call = ApiClient.getInstance().getApi().getCompopnentsDetails(localUrl,url);
         call.enqueue(new Callback<ComponentDetails>() {
             @Override
             public void onResponse(Call<ComponentDetails> call, Response<ComponentDetails> response) {
@@ -135,7 +135,7 @@ public class ProductDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     public void addtoCart(){
-        Call<com.example.pcbuilder.models.Response> call = ApiClient.getInstance().getApi().addToCart(11,url,2,qnty);
+        Call<com.example.pcbuilder.models.Response> call = ApiClient.getInstance().getApi().addToCart(11,url,Shops.shopName,qnty);
         call.enqueue(new Callback<com.example.pcbuilder.models.Response>() {
             @Override
             public void onResponse(Call<com.example.pcbuilder.models.Response> call, Response<com.example.pcbuilder.models.Response> response) {

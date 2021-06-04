@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.pcbuilder.Activities.ComponentsActivity;
 import com.example.pcbuilder.Adapters.BrandsAdapter;
 import com.example.pcbuilder.Adapters.ProductAdapter;
 import com.example.pcbuilder.Activities.MainActivity;
@@ -59,9 +60,8 @@ public class Home extends Fragment{
     private BrandsList brandsList;
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
-
-
-
+    private String brandUrl;
+    private String productUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +71,8 @@ public class Home extends Fragment{
         brands = root.findViewById(R.id.brandsID);
         //components = root.findViewById(R.id.componentsID);
 
+        brandUrl = ComponentsActivity.burl+"getbrands/";
+        productUrl = ComponentsActivity.burl+"getproducts/";
         productRecycle = root.findViewById(R.id.productrecycleID);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.show();
@@ -81,44 +83,12 @@ public class Home extends Fragment{
         brandName = new ArrayList<>();
         products = new ArrayList<>();
 
-
-        //Brands
-        Log.d("Checking : ","1");
-        Components gigabyte = new Components("Gigabyte");
-        Components msi = new Components("MSI");
-        Components zotac = new Components("Zotac");
-        Components pny = new Components("PNY");
-        Components asus = new Components("ASUS");
-        Components sapphire = new Components("Sapphire");
-
-        brandName.add(gigabyte);
-        brandName.add(msi);
-        brandName.add(zotac);
-        brandName.add(pny);
-        brandName.add(asus);
-        brandName.add(sapphire);
-
-        //Prducts
-        Products pRam = new Products("Ram",R.drawable.ram,"Price-3500");
-        Products pMotherboard = new Products("Motherboard",R.drawable.motherboard,"Price-10000");
-        Products pPowersupply = new Products("Powersupply",R.drawable.powersupply,"Price-3500");
-        Products pCasing = new Products("Casing",R.drawable.casing,"Price-4000");
-        Products pGpu = new Products("GPU",R.drawable.gpu,"Price-16000");
-        Products pGpu2 = new Products("GPU",R.drawable.gpu,"Price-16000");
-
-        products.add(pRam);
-        products.add(pMotherboard);
-        products.add(pPowersupply);
-        products.add(pCasing);
-        products.add(pGpu);
-        products.add(pGpu2);
-
         //get components list by Api
         productApis = new ArrayList<>();
-        getBrands(mainActivity.comName);
-        getProducts(mainActivity.comName);
+        getBrands(MainActivity.componentUrl);
+        getProducts(MainActivity.componentUrl);
 
-        System.out.println("here"+" "+productApis.size());
+        //System.out.println("here"+" "+productApis.size());
 
         // add brands in recycler view
        // brandsAdapter = new BrandsAdapter(brandName,getActivity());
@@ -136,8 +106,8 @@ public class Home extends Fragment{
         return root;
     }
 
-    public void getProducts(String comName){
-        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts(comName);
+    public void getProducts(String comUrl){
+        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getHomeProducts(productUrl,comUrl);
         call.enqueue(new Callback<List<ProductApi>>() {
             //List<ProductApi> productApiList;
             @Override
@@ -152,11 +122,12 @@ public class Home extends Fragment{
                     productAdapter.setOnProductClickListener(new ProductAdapter.OnProductClickListener() {
                         @Override
                         public void onProductClick(int position) {
-                            //Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),productApis.get(position).getUrls(),Toast.LENGTH_LONG).show();
                             Intent detailsIntents = new Intent(getActivity(), ProductDetails.class);
                             String prodUrl = productApis.get(position).getUrls();
                             //Toast.makeText(getActivity(),Integer.toString(prod.getImg()),Toast.LENGTH_LONG).show();
                             detailsIntents.putExtra(EXTRA_URL,prodUrl);
+                            detailsIntents.putExtra("localUrl",ComponentsActivity.burl+"componentdetails/");
                             startActivity(detailsIntents);
                         }
                     });
@@ -178,7 +149,7 @@ public class Home extends Fragment{
         });
     }
     public void getBrands(String name){
-        Call<BrandsList> call = ApiClient.getInstance().getApi().getBrandNames(name);
+        Call<BrandsList> call = ApiClient.getInstance().getApi().getBrandNames(brandUrl,MainActivity.componentUrl);
         call.enqueue(new Callback<BrandsList>() {
             @Override
             public void onResponse(Call<BrandsList> call, Response<BrandsList> response) {
@@ -210,7 +181,8 @@ public class Home extends Fragment{
 
     //get products by brands
     public void getProductsByBrands(String brandurl){
-        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getComponentsByBrands(brandurl);
+        String localUrl = ComponentsActivity.burl+"brandscomponents/";
+        Call<List<ProductApi>> call = ApiClient.getInstance().getApi().getComponentsByBrands(localUrl,brandurl);
         call.enqueue(new Callback<List<ProductApi>>() {
             //List<ProductApi> productApiList;
             @Override

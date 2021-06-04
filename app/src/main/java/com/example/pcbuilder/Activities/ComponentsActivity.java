@@ -10,15 +10,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.pcbuilder.Adapters.ComponentsAdapter;
-import com.example.pcbuilder.Adapters.ProductAdapter;
-import com.example.pcbuilder.Adapters.ShopAdapter;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.api.ApiClient;
 import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.Components;
-import com.example.pcbuilder.models.Shop;
+import com.example.pcbuilder.models.ComponentsList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,8 +26,9 @@ public class ComponentsActivity extends AppCompatActivity {
     private RecyclerView componentsView;
     private List<Components> componentsName;
     ComponentsAdapter componentsAdapter;
-    private BrandsList brandsList;
-    private  String url;
+    private ComponentsList componentsList;
+    private String url;
+    public static String burl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,7 @@ public class ComponentsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         url = intent.getStringExtra("shopUrl");
+        burl = url;
         url+="getComponentsAndBrandsName/";
         getComponents(url);
 
@@ -53,28 +52,27 @@ public class ComponentsActivity extends AppCompatActivity {
         Log.d("Checking 2","Not Working");
     }
 
-    public void getComponents(String name){
+    public void getComponents(String url){
         Toast.makeText(getApplicationContext(),url,Toast.LENGTH_LONG).show();
-       /* Call<BrandsList> call = ApiClient.getInstance().getApi().getComponentsName(name);
+        Call<ComponentsList> call = ApiClient.getInstance().getApi().getComponentsName(url);
 
-        call.enqueue(new Callback<BrandsList>() {
+        call.enqueue(new Callback<ComponentsList>() {
             @Override
-            public void onResponse(Call<BrandsList> call, Response<BrandsList> response) {
+            public void onResponse(Call<ComponentsList> call, Response<ComponentsList> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    brandsList = response.body();
-                    int len = brandsList.getBrands().size();
-                    componentsAdapter = new ComponentsAdapter(brandsList,getApplicationContext());
+                   componentsList = response.body();
+                    int len = componentsList.getComponents().size();
+                    componentsAdapter = new ComponentsAdapter(componentsList,getApplicationContext());
                     componentsView.setAdapter(componentsAdapter);
                     Toast.makeText(getApplicationContext(),String.valueOf(len),Toast.LENGTH_LONG).show();
                     //notify();
                 }
             }
-
             @Override
-            public void onFailure(Call<BrandsList> call, Throwable t) {
+            public void onFailure(Call<ComponentsList> call, Throwable t) {
 
             }
-        });*/
+        });
 
     }
 }

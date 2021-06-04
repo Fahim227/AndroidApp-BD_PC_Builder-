@@ -37,5 +37,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-
+    compile 'com.github.travijuu:numberpicker:1.0.7'
 }

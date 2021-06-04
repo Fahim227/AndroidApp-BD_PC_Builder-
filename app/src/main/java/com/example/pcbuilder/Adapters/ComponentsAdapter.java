@@ -6,16 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pcbuilder.Activities.ComponentsActivity;
 import com.example.pcbuilder.Activities.MainActivity;
 import com.example.pcbuilder.R;
 import com.example.pcbuilder.models.BrandsList;
+import com.example.pcbuilder.models.ComponentsList;
 
 public class ComponentsAdapter extends RecyclerView.Adapter<ComponentsAdapter.ViewHolder> {
-    BrandsList components;
+    ComponentsList components;
     OnComponenetsClickListener onComponenetsClickListener;
 
     Context cxt;
@@ -24,7 +27,7 @@ public class ComponentsAdapter extends RecyclerView.Adapter<ComponentsAdapter.Vi
         void onComponenetsClick(View view,int position);
     }
 
-    public ComponentsAdapter(BrandsList components, Context cxt) {
+    public ComponentsAdapter(ComponentsList components, Context cxt) {
         this.components = components;
         this.cxt = cxt;
     }
@@ -37,13 +40,14 @@ public class ComponentsAdapter extends RecyclerView.Adapter<ComponentsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(components.getBrands().get(position).getName());
+        holder.title.setText(components.getComponents().get(position).getName());
         holder.setOnComponentsClickListener(new OnComponenetsClickListener() {
             @Override
             public void onComponenetsClick(View view, int position) {
                 Intent intent = new Intent(cxt, MainActivity.class);
-                //Toast.makeText(cxt,components.get(position).getName(),Toast.LENGTH_LONG).show();
-                intent.putExtra("componentsName",components.getBrands().get(position).getLink());
+                intent.putExtra("componentsUrl",components.getComponents().get(position).getLink());
+                intent.putExtra("localUrl", ComponentsActivity.burl);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 cxt.startActivity(intent);
             }
         });
@@ -53,7 +57,7 @@ public class ComponentsAdapter extends RecyclerView.Adapter<ComponentsAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return components.getBrands().size();
+        return components.getComponents().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

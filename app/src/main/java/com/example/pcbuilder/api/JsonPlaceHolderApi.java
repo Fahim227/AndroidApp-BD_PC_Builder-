@@ -2,6 +2,7 @@ package com.example.pcbuilder.api;
 
 import com.example.pcbuilder.models.BrandsList;
 import com.example.pcbuilder.models.ComponentDetails;
+import com.example.pcbuilder.models.ComponentsList;
 import com.example.pcbuilder.models.ProductApi;
 import com.example.pcbuilder.models.Response;
 import com.example.pcbuilder.models.Shop;
@@ -13,37 +14,42 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 public interface JsonPlaceHolderApi {
 
     @FormUrlEncoded
-    @POST("getproducts/")
+    @POST
     Call<List<ProductApi>> getHomeProducts(
-            @Field("componentName") String comName
-           // @Field("brandName") String brandName
+            @Url String url,
+            @Field("comUrl") String comName
     );
 
+
     @FormUrlEncoded
-    @POST("getbrands/")
+    @POST
     Call<BrandsList> getBrandNames(
-            @Field("componentName") String comName
+            @Url String url,
+            @Field("comUrl") String comUrl
     );
 
     @FormUrlEncoded
-    @POST("brandscomponents/")
+    @POST
     Call<List<ProductApi>> getComponentsByBrands(
+            @Url String url,
             @Field("brandurl") String brandurl
     );
 
     @FormUrlEncoded
-    @POST("componentdetails/")
+    @POST
     Call<ComponentDetails> getCompopnentsDetails(
+            @Url String localUrl,
             @Field("url") String url
     );
-    @FormUrlEncoded
-    @POST("getbrands/")
-    Call<BrandsList> getComponentsName(
-            @Field("componentName") String comName
+
+    @POST
+    Call<ComponentsList> getComponentsName(
+           @Url String url
     );
 
     @FormUrlEncoded
@@ -51,7 +57,7 @@ public interface JsonPlaceHolderApi {
     Call<Response> addToCart(
             @Field("userid") int userid,
             @Field("produrl") String producturl,
-            @Field("shopid") int shopid,
+            @Field("shopName") String shopName,
             @Field("quantity") int qnty
     );
 

@@ -30,17 +30,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigationView;
     public static List<ProductApi> productApis;
     Intent intent;
-    public static String comName;
+    public static String componentUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         intent = getIntent();
-        comName = String.valueOf(intent.getStringExtra("componentsName"));
-
-
-
+        componentUrl = String.valueOf(intent.getStringExtra("componentsUrl"));
+        Toast.makeText(this,componentUrl,Toast.LENGTH_LONG).show();
         productApis = new ArrayList<>();
         bottomNavigationView = findViewById(R.id.bottomnavigationbarID);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.homemenuId:
                 fragment = new Home();
                 Bundle bundle = new Bundle();
-                bundle.putString("comName",comName);
+                bundle.putString("comName",componentUrl);
                 fragment.setArguments(bundle);
                 break;
             case R.id.accountmenuID:

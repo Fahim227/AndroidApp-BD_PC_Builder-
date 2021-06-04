@@ -197,21 +197,38 @@
                 app:layout_constraintVertical_bias="0.0" />
 
 
-            <NumberPicker
+            <!--  <NumberPicker
+                   android:id="@+id/quantityID"
+                   android:layout_width="58dp"
+                   android:layout_height="84dp"
+                   android:orientation="horizontal"
+                   android:solidColor="@color/colorBlue"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toStartOf="@+id/addlistID"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/descriptionID"
+                   app:layout_constraintVertical_bias="1.0" />
+           -->
+
+
+            <com.travijuu.numberpicker.library.NumberPicker
                 android:id="@+id/quantityID"
-                android:layout_width="58dp"
-                android:layout_height="84dp"
-                android:orientation="horizontal"
-                android:solidColor="@color/colorBlue"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/addlistID"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionID"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/addlistID"
-                android:layout_width="237dp"
+                android:layout_width="180dp"
                 android:layout_height="57dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -226,8 +243,8 @@
                 app:layout_constraintVertical_bias="0.321" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- </com.facebook.shimmer.ShimmerFrameLayout>-->
+               </androidx.constraintlayout.widget.ConstraintLayout>
+               <!-- </com.facebook.shimmer.ShimmerFrameLayout>-->
     </ScrollView>
 
 
